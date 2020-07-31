@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="generate_btn_value" class="form-control" value="" type="text">
+                    <button id="generate_btn" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="display_value" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div onclick="dis('7')" class="button">7</div>
+                              <div onclick="dis('8')" class="button">8</div>
+                              <div onclick="dis('9')" class="button">9</div>
+                            </div>
+                            <div  class="calc-button-row">
+                              <div onclick="dis('4')" class="button">4</div>
+                              <div onclick="dis('5')" class="button">5</div>
+                              <div onclick="dis('6')" class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div onclick="dis('1')" class="button">1</div>
+                              <div onclick="dis('2')" class="button">2</div>
+                              <div onclick="dis('3')" class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div  id="clear" onclick="clearone()" class="button"><</div>
+                                <div onclick="dis('0')" class="button">0</div>
+                                <div id="clear" class="button" onclick="clr()">C</div>
+                            </div>
+                            <div>
+                                <button id="submit_btn" type="submit" onclick="check()" class="submit-btn">Submit</button>
+                                <p id="try_no" class="action-left"></p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <!-- <p class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p class="notify">✅ Pin Matched... Secret door is opening for you</p> -->
+            <p id="notification" class="notify"></p>
+        </div>
+    </div>
+
+
+    <script>
+        var tries;
+        document.getElementById("generate_btn").onclick=function(){
+            tries = 3;
+            document.getElementById('try_no').innerText = tries + " try left";
+            document.getElementById("generate_btn_value").value= Math.floor(1000 + Math.random() * 9000);
+            document.getElementById("display_value").value = "";
+            document.getElementById("submit_btn").disabled === true ?  document.getElementById("submit_btn").disabled=false: null;
+            document.getElementById("notification").innerText="";
+            document.getElementById('try_no').style.display = "block"
+        }
+        
+        
+         function check() {
+             
+                document.getElementById("notification").innerText = document.getElementById("display_value").value == document.getElementById("generate_btn_value").value ? "✅ Pin Matched... Secret door is opening for you" : "❌ Pin Didn't Match, Please try again";
+                document.getElementById("display_value").value != document.getElementById("generate_btn_value").value ?  (tries-=1, document.getElementById('try_no').innerText = tries + " try left" ): document.getElementById('try_no').style.display="none";
+                document.getElementById("display_value").value = "";
+                tries == 0 ? document.getElementById("submit_btn").disabled = true: null;
+            }
+        
+        
+        function clr() {
+            document.getElementById("display_value").value = ""
+            } 
+        function clearone(){
+            document.getElementById("display_value").value = document.getElementById("display_value").value.slice(0, document.getElementById("display_value").value.length - 1);}
+        function dis(val) {
+            document.getElementById("display_value").value += val
+        }
+       
+        
+        
+       
+    </script>
+</body>
+</html>
